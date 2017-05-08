@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import networkx as nx
 from networkx.readwrite import json_graph
 import json
@@ -12,7 +10,7 @@ if __name__ == "__main__":
         for l in f:
             friend = json.loads(l, encoding='utf-8')
             if '_normal' in friend['img']:
-                friend['img'] = friend['img'].replace('_normal','')
+                friend['img'] = friend['img'].replace('_normal', '')
             g.add_node(friend['id'], attr_dict=friend)
 
             lst.append(friend)
@@ -30,6 +28,7 @@ if __name__ == "__main__":
     for node in g.nodes():
         g.node[node]['degree'] = nx.degree(g, node)
         g.node[node]['closeness'] = nx.closeness_centrality(g, node)
+
         if node in articulaciones:
             g.node[node]['articulacion'] = 1
         else:

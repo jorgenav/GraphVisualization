@@ -12,7 +12,7 @@
 <script>
 
     var width = 1920,
-        height = 1080
+        height = 1080;
 
     var svg = d3.select("body").append("svg")
             .attr("width", width)
@@ -22,8 +22,8 @@
 
     var force = d3.layout.force()
             .gravity(0.2)
-            .distance(100)
-            .charge(-1000)
+            .distance(200)
+            .charge(-1250)
             .size([width, height]);
 
     var tip = d3.tip()
@@ -46,7 +46,7 @@
 
     svg.append("text")
         .attr("x", (width / 2))
-        .attr("y", 0 + 50)
+        .attr("y", 50)
         .attr("text-anchor", "middle")
         .style("font-size", "32px")
         .style("text-decoration", "underline")
@@ -73,14 +73,14 @@
                 .attr("class", "node")
                 .call(force.drag)
                 .on('mouseover', tip.show)
-                .on('mouseout', tip.hide);;
+                .on('mouseout', tip.hide);
 
-        link.style("opacity", .75)
+        link.style("opacity", .75);
 
         node.append("circle")
                 .attr("r", function (d) {
                     if (d['degree'] > 1) {
-                        if (d['articulacion'] == 1) {
+                        if (d['articulacion'] === 1) {
                             return 30 + (100 * d['degree'] * d['closeness'] / 100);
                         }
                         else {
@@ -116,7 +116,7 @@
                     }
                 })
                 .style("stroke-width", function (d) {
-                    if (d['articulacion'] == 1) {
+                    if (d['articulacion'] === 1) {
                         return 8;
                         }
                     else {
@@ -144,7 +144,7 @@
 
         node.on('dblclick', function (d) {
             window.open(d["url"], '_blank');
-        })
+        });
 
         force.on("tick", function() {
             link.attr("x1", function(d) { return d.source.x; })

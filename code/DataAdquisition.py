@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import twitter
-from twitter import TwitterError
+from twitter import *
 from collections import OrderedDict
 import json
 import time
@@ -15,8 +14,8 @@ class KeyStore:
         self.keys = [line.rstrip('\n') for line in open(keyfile)]
         self.idx = 0
         key = self.keys[self.idx].split()
-        self.api = twitter.Api(consumer_key=key[0], consumer_secret=key[1],
-                               access_token_key=key[2], access_token_secret=key[3])
+        self.api = Api(consumer_key=key[0], consumer_secret=key[1],
+                       access_token_key=key[2], access_token_secret=key[3])
 
     def size(self):
         return len(self.keys)
@@ -24,8 +23,8 @@ class KeyStore:
     def change_credentials(self):
         self.idx = (self.idx + 1) % len(self.keys)
         key = self.keys[self.idx].split()
-        self.api = twitter.Api(consumer_key=key[0], consumer_secret=key[1],
-                               access_token_key=key[2], access_token_secret=key[3])
+        self.api = Api(consumer_key=key[0], consumer_secret=key[1],
+                       access_token_key=key[2], access_token_secret=key[3])
 
 
 if __name__ == '__main__':
@@ -110,7 +109,7 @@ if __name__ == '__main__':
                     # Almacenamiento de seguidos de segundo orden
                     added = 0
                     for user in dict_json['following']:
-                        if (user not in following2) and (len(following2) < 150) and (added < 20):
+                        if (user not in following2) and (added < 20):
                             following2.append(user)
                             added += 1
 
@@ -131,7 +130,7 @@ if __name__ == '__main__':
 
     # Descarga de datos de seguidos de segundo orden
     for u in following2:
-        if u not in users_read:
+        if u not in users_read and (len(users_read) < 200):
             try:
                 user = key_store.api.GetUser(user_id=u)
                 if user.verified and not user.protected:
